@@ -1,7 +1,7 @@
-SERVER_IMAGE = z-way-server-Ubuntu-v2.2.2.tgz
+SERVER_IMAGE = z-way-server-Ubuntu-v2.2.5.tgz
 
-DOCKER_IMAGE_NAME_VERSION = 2.2.2
-DOCKER_IMAGE_NAME_BASE = wattx/z-way-server-ubuntu
+DOCKER_IMAGE_NAME_VERSION = 2.2.5
+DOCKER_IMAGE_NAME_BASE = geirgp/z-way-server
 DOCKER_IMAGE_NAME_FULL = $(DOCKER_IMAGE_NAME_BASE):$(DOCKER_IMAGE_NAME_VERSION)
 
 .PHONY: all build run push shell release
@@ -17,7 +17,7 @@ build:
 	docker build --build-arg SERVER_IMAGE=$(SERVER_IMAGE) -t $(DOCKER_IMAGE_NAME_FULL) --rm .
 
 run:
-	docker run -it --rm --privileged -p 8083:8083 -v $(shell pwd):/home/user/app $(DOCKER_IMAGE_NAME_FULL)
+	docker run -it --rm --privileged -e VIRTUAL_HOST=zway -e VIRTUAL_PORT=8083 -p 8083:8083 -v $(shell pwd):/home/user/app $(DOCKER_IMAGE_NAME_FULL)
 
 shell:
 	docker run -it --rm --privileged -p 8083:8083 -v $(shell pwd):/home/user/app --entrypoint=bash $(DOCKER_IMAGE_NAME_FULL)

@@ -6,11 +6,12 @@ RUN apt-get -y install libssl-dev libcurl3 libarchive-dev libarchive13 wget
 
 WORKDIR /home/user/app
 
-RUN wget razberry.z-wave.me/z-way-server/${SERVER_IMAGE}
-RUN tar --strip-components=1 -zxvf ${SERVER_IMAGE}
-RUN rm ${SERVER_IMAGE}
+RUN wget razberry.z-wave.me/z-way-server/${SERVER_IMAGE} \
+  && tar --strip-components=1 -zxvf ${SERVER_IMAGE} \
+  && rm ${SERVER_IMAGE}
 
 ENV LD_LIBRARY_PATH=/home/user/app/libs
 
+ADD start.sh /start.sh
 
-CMD ./z-way-server
+CMD /start.sh
